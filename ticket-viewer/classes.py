@@ -1,10 +1,12 @@
+from cryptography import fernet
 from cryptography.fernet import Fernet
 import re
+import requests
 import ctypes
 import time
 import os
 import sys
-
+import json
 
 class User:
     def __init__(self):
@@ -13,6 +15,7 @@ class User:
         self.__password = ""
         self.__key_file = 'key.key'
         self.__time_of_exp = -1
+        self.__cred_filename = 'CredFile.ini'
 
     @property
     def username(self):
@@ -26,14 +29,14 @@ class User:
   
     @property
     def password(self):
-        return self.__password
+        fernet_key = Fernet(self.__key)
+        return fernet_key.decrypt(self.__password.encode()).decode()
   
     @password.setter
     def password(self,password):
         self.__key = Fernet.generate_key()
-        f = Fernet(self.__key)
-        self.__password = f.encrypt(password.encode()).decode()
-        del f
+        fernet_key = Fernet(self.__key)
+        self.__password = fernet_key.encrypt(password.encode()).decode()
   
     @property
     def expiry_time(self):
@@ -51,9 +54,8 @@ class User:
         storing the key and create a credential file with user name and password
         """
   
-        cred_filename = 'CredFile.ini'
   
-        with open(cred_filename,'w') as file_in:
+        with open(self.__cred_filename,'w') as file_in:
             file_in.write("#Credential file:\nUsername={}\nPassword={}\nExpiry={}\n"
             .format(self.__username,self.__password,self.__time_of_exp))
             file_in.write("++"*20)
@@ -73,22 +75,46 @@ class User:
   
             with open(self.__key_file,'w') as key_in:
                 key_in.write(self.__key.decode())
-                #Hidding the key file.
-                #The below code snippet finds out which current os the script is running on and does the task base on it.
-                if(os_type == 'win32'):
-                    ctypes.windll.kernel32.SetFileAttributesW(self.__key_file, 2)
-                else:
-                    pass
   
         except PermissionError:
             os.remove(self.__key_file)
             print("A Permission error occurred.\n Please re run the script")
             sys.exit()
   
-        self.__username = ""
-        self.__password = ""
-        self.__key = ""
-        self.__key_file    
+  
 
     def get_cred(self):
-        pass #TODO: Pick creds from cred file
+        key = ''
+
+        with open('key.key','r') as key_in:
+            key = key_in.read().encode()
+
+        fernet_key = Fernet(key)
+        with open(self.__cred_filename,'r') as cred_in:
+            lines = cred_in.readlines()
+            config = {}
+            for line in lines:
+                tuples = line.rstrip('\n').split('=',1)
+                if tuples[0] in ('Username','Password'):
+                    config[tuples[0]] = tuples[1]
+        
+        self.username = config['Username']
+        self.password = fernet_key.decrypt(config['Password'].encode()).decode()
+
+
+
+
+    def authenticate(self):
+        try:
+            user_json = requests.get('https://zcckjoshi.zendesk.com/api/v2/users/me.json', auth=(self.username, self.password)).json()
+            if user_json['user']['id']==None:
+                raise Exception("Invalid Credentials")
+            print(f"Hello {user_json['user']['name']}")
+        except Exception as e:
+            print("Authentication Error")
+            if(os.path.exists(self.__key_file)):
+                os.remove(self.__key_file)
+            if(os.path.exists(self.__cred_filename)):
+                os.remove(self.__cred_filename)
+
+            exit()  
