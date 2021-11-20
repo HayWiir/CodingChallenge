@@ -1,5 +1,5 @@
 from structure_functions import *
-from classes import *
+from user import *
 
 from getpass import getpass
 

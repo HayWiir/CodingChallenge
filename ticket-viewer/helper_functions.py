@@ -1,4 +1,4 @@
-from classes import *
+from user import *
 
 def user_credentials():
     user_cred = User()
