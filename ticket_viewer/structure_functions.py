@@ -1,10 +1,12 @@
-#This file contains functions which print menu or related stuff
+# This file contains functions which print menu or related stuff
+
 
 def title():
     print()
-    print('*' * 100)
-    print('|', ' ' * 96, '|')
-    print("""
+    print("*" * 100)
+    print("|", " " * 96, "|")
+    print(
+        """
                  .&&&&&&&&&&&&&&&&&&&&#   &&&&&&&&&&&&&&&&&&&&                  
                   &&&&&&&&&&&&&&&&&&&&    &&&&&&&&&&&&&&&&&&                    
                     &&&&&&&&&&&&&&&&*     &&&&&&&&&&&&&&&&                      
@@ -19,32 +21,38 @@ def title():
                       &&&&&&&&&&&&&&&&&     &&&&&&&&&&&&&&&&&&                  
                     &&&&&&&&&&&&&&&&&&&   .&&&&&&&&&&&&&&&&&&&&                 
                   &&&&&&&&&&&&&&&&&&&&&   &&&&&&&&&&&&&&&&&&&&&
-    """)
+    """
+    )
 
-    print('|', ' ' * 96, '|')
-    print('*' * 100)
+    print("|", " " * 96, "|")
+    print("*" * 100)
+
 
 def signin():
-  print()
-  print()
-  print("Sign in to your Zendesk Account")
-  print()
+    print()
+    print()
+    print("Sign in to your Zendesk Account")
+    print()
+
 
 def viewer():
-  print()
-  print("""
+    print()
+    print(
+        """
                      Welcome to Zendesk Ticket Viewer!
-    """)
-  print()
+    """
+    )
+    print()
+
 
 def menu():
-  print()
-  print()
-  print("""
+    print()
+    print()
+    print(
+        """
     Enter 1 to view all tickets
     Enter 2 to view a specific ticket
     Any other key to exit
-  """)
-  print()    
-
-
+  """
+    )
+    print()

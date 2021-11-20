@@ -1,8 +1,9 @@
 from ticket_viewer.user import *
 
+
 def test_get_cred_fail():
     """
-    get_cred() should fail when it cannot find 
+    get_cred() should fail when it cannot find
     the required .ini and .key files
     """
 
@@ -18,9 +19,10 @@ def test_get_cred_fail():
     except Exception as e:
         assert True
 
+
 def test_get_cred_pass():
     """
-    get_cred() should fail when it cannot find 
+    get_cred() should fail when it cannot find
     the required .ini and .key files
     """
 
@@ -53,7 +55,7 @@ def test_auth_wrong_cred():
         user.authenticate()
         assert False
     except Exception as e:
-        assert str(e)=="Authentication Error"
+        assert str(e) == "Authentication Error"
 
 
 def test_auth_no_api(socket_disabled):
@@ -71,4 +73,4 @@ def test_auth_no_api(socket_disabled):
         user.authenticate()
         assert False
     except Exception as e:
-        assert str(e)=="API unreachable. Max retries exhausted. Try again later."                
+        assert str(e) == "API unreachable. Max retries exhausted. Try again later."
