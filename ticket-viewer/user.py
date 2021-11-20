@@ -122,18 +122,17 @@ class User:
 
     def authenticate(self):
         """
-        This function is responsible authenticating the user credentials
+        This function is responsible authenticating the user credentials.
+        Raises an Exception in case of failure
         """
         try:
             user_json = requests.get(f'https://{self.subdomain}.zendesk.com/api/v2/users/me.json', auth=(self.username, self.password)).json()
             if user_json['user']['id']==None:
                 raise Exception("Invalid Credentials")
-            print(f"Hello {user_json['user']['name']}")
+            print(f"Hello {user_json['user']['name']}!")
         except Exception as e:
-            print("Authentication Error")
             if(os.path.exists(self.__key_file)):
                 os.remove(self.__key_file)
             if(os.path.exists(self.__cred_filename)):
                 os.remove(self.__cred_filename)
-
-            exit()  
+            raise Exception("Authentication Error")

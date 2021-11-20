@@ -21,17 +21,21 @@ def title():
                     &&&&&&&&&&&&&&&&&&&   .&&&&&&&&&&&&&&&&&&&&                 
                   &&&&&&&&&&&&&&&&&&&&&   &&&&&&&&&&&&&&&&&&&&&
     """)
-    print("""
-                     Welcome to Zendesk Ticket Viewer!
-    """)
+
     print('|', ' ' * 96, '|')
     print('*' * 100)
 
-def signin_menu():
+def signin():
   print()
   print()
-  print("Press 1 to sign in to your Zendesk Account | Anything else to exit")
+  print("Sign in to your Zendesk Account")
   print()
 
-# def credentials_():
+def viewer():
+  print()
+  print("""
+                     Welcome to Zendesk Ticket Viewer!
+    """)
+  print()  
+
 
