@@ -11,6 +11,7 @@ import json
 class User:
     def __init__(self):
         self.__username = ""
+        self.__subdomain = ""
         self.__key = ""
         self.__password = ""
         self.__key_file = 'key.key'
@@ -26,6 +27,16 @@ class User:
         while (username == ''):
             username = input('Blank email is not accepted:')
         self.__username = username
+
+    @property
+    def subdomain(self):
+        return self.__subdomain
+  
+    @subdomain.setter
+    def subdomain(self,subdomain):
+        while (subdomain == ''):
+            username = input('Blank subdomain is not accepted:')
+        self.__subdomain = subdomain    
   
     @property
     def password(self):
@@ -56,8 +67,8 @@ class User:
   
   
         with open(self.__cred_filename,'w') as file_in:
-            file_in.write("#Credential file:\nUsername={}\nPassword={}\nExpiry={}\n"
-            .format(self.__username,self.__password,self.__time_of_exp))
+            file_in.write("#Credential file:\nUsername={}\nSubdomain={}\nPassword={}\nExpiry={}\n"
+            .format(self.__username,self.__subdomain,self.__password,self.__time_of_exp))
             file_in.write("++"*20)
   
   
@@ -84,6 +95,10 @@ class User:
   
 
     def get_cred(self):
+        """
+        This function checks for an existing config file and key and extracts 
+        credentials from it. 
+        """
         key = ''
 
         with open('key.key','r') as key_in:
@@ -95,18 +110,22 @@ class User:
             config = {}
             for line in lines:
                 tuples = line.rstrip('\n').split('=',1)
-                if tuples[0] in ('Username','Password'):
+                if tuples[0] in ('Username','Password','Subdomain'):
                     config[tuples[0]] = tuples[1]
         
         self.username = config['Username']
+        self.subdomain = config['Subdomain']
         self.password = fernet_key.decrypt(config['Password'].encode()).decode()
 
 
 
 
     def authenticate(self):
+        """
+        This function is responsible authenticating the user credentials
+        """
         try:
-            user_json = requests.get('https://zcckjoshi.zendesk.com/api/v2/users/me.json', auth=(self.username, self.password)).json()
+            user_json = requests.get(f'https://{self.subdomain}.zendesk.com/api/v2/users/me.json', auth=(self.username, self.password)).json()
             if user_json['user']['id']==None:
                 raise Exception("Invalid Credentials")
             print(f"Hello {user_json['user']['name']}")
