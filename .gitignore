@@ -9,4 +9,6 @@ __pycache__/
 
 .DS_store
 
+#pytest
 .pytest_cache/
+.coverage
