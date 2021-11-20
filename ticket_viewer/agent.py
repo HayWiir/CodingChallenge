@@ -17,9 +17,19 @@ class Agent:
         title()
         signin()
         self.authenticate_user()
+        
+        continue_with_existing_acc()
+        user_input = input()
+        if user_input.lower()=='n':
+            self.user.delete_cred()
+            self.authenticate_user() 
+        else:
+            pass       
+        
         viewer()
         self.tickets = Tickets(self.user)
         self.tickets.get()
+        
         print()
         print()
         print(f"There are {self.tickets.ticket_count} tickets")
@@ -60,7 +70,8 @@ class Agent:
         try:
             self.user.authenticate()
         except Exception as e:
-            if e == Exception("Authentication Error"):
+            if str(e) == "Authentication Error":
+                print(e)
                 self.authenticate_user()
             else:
                 print(e)

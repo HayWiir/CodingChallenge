@@ -111,6 +111,12 @@ class User:
         self.subdomain = config["Subdomain"]
         self.password = fernet_key.decrypt(config["Password"].encode()).decode()
 
+    def delete_cred(self):
+        if os.path.exists(self.__key_file):
+            os.remove(self.__key_file)
+        if os.path.exists(self.__cred_filename):
+            os.remove(self.__cred_filename)
+
     def authenticate(self):
         """
         This function is responsible authenticating the user credentials.
@@ -129,13 +135,10 @@ class User:
             if user_json["user"]["id"] == None:
                 raise Exception("Invalid Credentials")
             else:
+                print()
                 print(f"Hello {user_json['user']['name']}!")
 
         except Exception as e:
 
-            if os.path.exists(self.__key_file):
-                os.remove(self.__key_file)
-            if os.path.exists(self.__cred_filename):
-                os.remove(self.__cred_filename)
-
-            raise Exception("Authentication Error")
+            self.delete_cred()
+            raise Exception("Authentication Error")       
