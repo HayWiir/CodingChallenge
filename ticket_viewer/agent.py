@@ -29,7 +29,10 @@ class Agent:
                 self.tickets.display_all()
             elif user_input == "2":
                 number = int(input("Enter ticket number: "))
-                self.tickets.display_ticket(number)
+                try:
+                    self.tickets.display_ticket(number)
+                except Exception as e:
+                    print(e)    
             elif user_input == "":
                 pass
             else:

@@ -117,11 +117,11 @@ class Tickets:
                 if user_input != "":
                     break
 
-    def ticket_printer(self, ticket):
+    def ticket_tabulate(self, ticket):
         """
-        Prints chosen attributes for a ticket
+        Returns chosen attributes for a ticket in pretty format
         """
-        attribute_list = ["id", "subject", "description", "status", "tags", "url"]
+        attribute_list = ["id", "subject", "description", "status","created_at", "updated_at", "tags", "url"]
         ticket_data = []
         for attribute in attribute_list:
             if attribute == "description":
@@ -130,7 +130,7 @@ class Tickets:
                 )
             ticket_data.append([attribute.capitalize(), ticket[attribute]])
 
-        print(tabulate(ticket_data, tablefmt="fancy_grid"))
+        return tabulate(ticket_data, tablefmt="fancy_grid")
 
     def display_ticket(self, number):
         """
@@ -138,10 +138,7 @@ class Tickets:
         """
         index = number - 1
         if index >= self.ticket_count or index < 0:
-            print()
-            print(
-                f"INVALID TICKET NUMBER. Please enter a valid number. There are {self.ticket_count} tickets."
-            )
+            raise Exception("Invalid Ticket Number")
 
         else:
-            self.ticket_printer(self.ticket_list[index])
+            print(self.ticket_tabulate(self.ticket_list[index]))
