@@ -1,8 +1,8 @@
-from structure_functions import *
-from user import *
-from ticket import *
-
 from getpass import getpass
+
+from structure_functions import *
+from ticket import *
+from user import *
 
 
 class Agent:
@@ -20,6 +20,21 @@ class Agent:
         self.tickets = Tickets(self.user)
         viewer()
         self.tickets.get_tickets()
+
+
+        while True:
+            menu()
+            user_input = input(">> ")
+
+            if user_input=='1':
+                self.tickets.display_all()
+            elif user_input=='2':
+                number = int(input("Enter ticket number: "))
+                self.tickets.display_ticket(number)
+            elif user_input=='':
+                pass    
+            else:
+                break
     
 
     def authenticate_user(self):

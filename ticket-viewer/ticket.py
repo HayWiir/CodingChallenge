@@ -1,5 +1,10 @@
-import requests
+import textwrap
+from datetime import datetime
 from math import floor
+
+import requests
+from tabulate import tabulate
+
 
 class Tickets:
     def __init__(self, user):
@@ -48,5 +53,71 @@ class Tickets:
         print()
         # print(f'There are {len(self.ticket_list)} tickets.')        
 
-    # def display_all(self):
-    #     print("\tSubject\t\tRequester\tRequested")
+    def display_all(self):
+        """
+        Displays tickets in a list. In case of more than 25 tickets,
+        pages are created.
+        """
+        simplified_data = []
+        for ticket  in self.ticket_list:
+            id = ticket["id"]
+            subject = ticket["subject"]
+            status = ticket["status"]
+            last_update = datetime.strptime(ticket["updated_at"], '%Y-%m-%dT%H:%M:%Sz')
+            last_update_str = datetime.strftime(last_update, "%B %d %Y %H:%M:%S")
+            
+
+            simplified_data.append([id,subject, status, last_update_str])
+
+        if self.ticket_count<=25:
+            print(tabulate(simplified_data, headers=["ID", "Subject", "Status", "Last Updated"]))   
+
+        else:
+            curr_start = 0   
+
+            while (curr_start<self.ticket_count):
+                
+                print(tabulate(
+                    simplified_data[curr_start:curr_start+25], 
+                    headers=["ID", "Subject", "Status", "Last Updated"],
+                    tablefmt='fancy_grid'))  
+                print(f"Page {(curr_start+25)//25}")
+
+                curr_start+=25
+                if (curr_start>=self.ticket_count):
+                    print("This was the last page")
+                    break
+                
+                user_input = input("To see more tickets, press Enter (Any other key to go back): ")
+                if user_input!='':
+                    break
+                
+    
+    def ticket_printer(self,ticket):
+        """
+        Prints chosen attributes for a ticket
+        """
+        attribute_list = ["id", "subject", "description", "status", "tags", "url"]
+        ticket_data = []
+        for attribute in attribute_list:
+            if attribute=='description':
+                ticket[attribute] = '\n'.join(textwrap.wrap(ticket[attribute], width=60, replace_whitespace=False))
+            ticket_data.append([attribute.capitalize(), ticket[attribute]])
+
+        print(tabulate(ticket_data, tablefmt="fancy_grid"))    
+
+    
+    def display_ticket(self, number):
+        """
+        Prints data for a given ticket number
+        """
+        index = number - 1
+        if index >= self.ticket_count or index<0:
+            print()
+            print(f"INVALID TICKET NUMBER. Please enter a valid number. There are {self.ticket_count} tickets.")
+
+        else:
+            self.ticket_printer(self.ticket_list[index])
+
+
+         

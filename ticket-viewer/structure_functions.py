@@ -1,5 +1,4 @@
-
-
+#This file contains functions which print menu or related stuff
 
 def title():
     print()
@@ -36,6 +35,16 @@ def viewer():
   print("""
                      Welcome to Zendesk Ticket Viewer!
     """)
-  print()  
+  print()
+
+def menu():
+  print()
+  print()
+  print("""
+    Enter 1 to view all tickets
+    Enter 2 to view a specific ticket
+    Any other key to exit
+  """)
+  print()    
 
 

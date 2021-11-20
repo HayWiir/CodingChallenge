@@ -1,12 +1,9 @@
-from cryptography import fernet
-from cryptography.fernet import Fernet
-import re
-import requests
-import ctypes
-import time
 import os
 import sys
-import json
+
+import requests
+from cryptography.fernet import Fernet
+
 
 class User:
     def __init__(self):
