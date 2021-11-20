@@ -56,8 +56,11 @@ class Agent:
         try:
             self.user.authenticate()
         except Exception as e:
-            print(e)
-            self.authenticate_user()    
+            if e == Exception("Authentication Error"):
+                self.authenticate_user()
+            else:
+                print(e)
+                exit()        
 
 
                

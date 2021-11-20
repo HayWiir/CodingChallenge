@@ -1,3 +1,5 @@
 cryptography
 requests
 tabulate
+pytest
+pytest-socket

@@ -6,3 +6,7 @@ __pycache__/
 #Credential files
 *.key
 *.ini
+
+.DS_store
+
+.pytest_cache/

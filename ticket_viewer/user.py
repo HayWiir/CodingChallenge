@@ -111,8 +111,6 @@ class User:
         self.password = fernet_key.decrypt(config['Password'].encode()).decode()
 
 
-
-
     def authenticate(self):
         """
         This function is responsible authenticating the user credentials.
@@ -123,8 +121,7 @@ class User:
             user_data = requests.get(req, auth=(self.username, self.password))
         
         except Exception as e:
-            print("API unreachable. Max retries exhausted. Try again later.")
-            exit()
+            raise Exception("API unreachable. Max retries exhausted. Try again later.")
         
         try:
             user_json = user_data.json()
