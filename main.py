@@ -1,4 +1,4 @@
-from agent import *
+from ticket_viewer.agent import *
 
 
 if __name__ == "__main__":

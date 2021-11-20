@@ -11,7 +11,6 @@ class Tickets:
         self.user = user
         self.ticket_count = 0
         self.ticket_list = []
-        
 
     def get_ticket_count(self):
         """
@@ -29,7 +28,7 @@ class Tickets:
             exit()
 
         return count_data.json()["count"]["value"]
-    
+
     def get_tickets(self):
         """
         This function queries the API for all tickets avaialable.
@@ -68,7 +67,7 @@ class Tickets:
 
     def get(self):
         self.ticket_count = self.get_ticket_count()
-        self.ticket_list = self.get_tickets()        
+        self.ticket_list = self.get_tickets()
 
     def display_all(self):
         """
@@ -121,7 +120,16 @@ class Tickets:
         """
         Returns chosen attributes for a ticket in pretty format
         """
-        attribute_list = ["id", "subject", "description", "status","created_at", "updated_at", "tags", "url"]
+        attribute_list = [
+            "id",
+            "subject",
+            "description",
+            "status",
+            "created_at",
+            "updated_at",
+            "tags",
+            "url",
+        ]
         ticket_data = []
         for attribute in attribute_list:
             if attribute == "description":
@@ -129,7 +137,6 @@ class Tickets:
                     textwrap.wrap(ticket[attribute], width=60, replace_whitespace=False)
                 )
             ticket_data.append([attribute.capitalize(), ticket[attribute]])
-
         return tabulate(ticket_data, tablefmt="fancy_grid")
 
     def display_ticket(self, number):

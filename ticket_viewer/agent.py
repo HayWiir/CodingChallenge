@@ -1,8 +1,8 @@
 from getpass import getpass
 
-from structure_functions import *
-from ticket import *
-from user import *
+from ticket_viewer.structure_functions import *
+from ticket_viewer.ticket import *
+from ticket_viewer.user import *
 
 
 class Agent:
@@ -20,6 +20,9 @@ class Agent:
         viewer()
         self.tickets = Tickets(self.user)
         self.tickets.get()
+        print()
+        print()
+        print(f"There are {self.tickets.ticket_count} tickets")
 
         while True:
             menu()
@@ -32,7 +35,7 @@ class Agent:
                 try:
                     self.tickets.display_ticket(number)
                 except Exception as e:
-                    print(e)    
+                    print(e)
             elif user_input == "":
                 pass
             else:

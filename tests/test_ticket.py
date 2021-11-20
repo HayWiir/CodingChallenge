@@ -12,15 +12,14 @@ def dummy_ticket_user(requests_mock):
     user.subdomain = "baddomain"
 
     req = f"https://{user.subdomain}.zendesk.com/api/v2/tickets.json?page=1"
-    requests_mock.get(
-        req, json=json.load(open("ticket_viewer/tests/dummy_tickets.json"))
-    )
+    requests_mock.get(req, json=json.load(open("tests/dummy_tickets.json")))
 
     ticket = Tickets(user)
     ticket.ticket_count = 100
     ticket.ticket_list = ticket.get_tickets()
 
     return user, ticket
+
 
 def test_ticket_count(requests_mock):
     user = User()
@@ -30,12 +29,10 @@ def test_ticket_count(requests_mock):
     # user.create_cred()
 
     # req1 = f"https://{user.subdomain}.zendesk.com/api/v2/tickets/count"
-    # requests_mock.get(req1, json=json.load(open('ticket_viewer/tests/dummy_tickets.json')))
+    # requests_mock.get(req1, json=json.load(open('tests/dummy_tickets.json')))
 
     req2 = f"https://{user.subdomain}.zendesk.com/api/v2/tickets/count"
-    requests_mock.get(
-        req2, json=json.load(open("ticket_viewer/tests/dummy_count.json"))
-    )
+    requests_mock.get(req2, json=json.load(open("tests/dummy_count.json")))
 
     ticket = Tickets(user)
 
@@ -60,6 +57,8 @@ def test_ticket_printer(requests_mock, capfd):
             "Hi there,\n\nI’m sending an email because I’m having a problem\nsetting up your new product. Can you help me troubleshoot?\nThanks,\n The Customer",
         ],
         ["Status", "open"],
+        ["Created_at", "2021-11-19T19:24:50Z"],
+        ["Updated_at", "2021-11-19T19:24:51Z"],
         ["Tags", ["sample", "support", "zendesk"]],
         ["Url", "https://zcckjoshi.zendesk.com/api/v2/tickets/1.json"],
     ]
@@ -106,7 +105,9 @@ def test_ticket_printer(requests_mock, capfd):
         "allow_attachments": True,
     }
 
-    assert ticket.ticket_tabulate(test_ticket) == tabulate(test_print_data, tablefmt="fancy_grid")
+    assert ticket.ticket_tabulate(test_ticket) == tabulate(
+        test_print_data, tablefmt="fancy_grid"
+    )
 
 
 def test_display_ticket_wrong(requests_mock):
@@ -116,7 +117,4 @@ def test_display_ticket_wrong(requests_mock):
         ticket.display_ticket(300)
         assert False
     except Exception as e:
-        assert True  
-
-
-
+        assert True

@@ -39,7 +39,7 @@ def viewer():
     print()
     print(
         """
-                     Welcome to Zendesk Ticket Viewer!
+Welcome to Zendesk Ticket Viewer!
     """
     )
     print()
