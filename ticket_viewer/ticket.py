@@ -9,14 +9,15 @@ from tabulate import tabulate
 class Tickets:
     def __init__(self, user):
         self.user = user
-        self.ticket_list = []
         self.ticket_count = 0
+        self.ticket_list = []
+        
 
-    def get_tickets(self):
+    def get_ticket_count(self):
         """
-        This function queries the API for all tickets avaialable.
-        It provides a progss bar as it receives tickets.
+        This function queries the API to get a complete ticket count.
         """
+
         try:
             req = f"https://{self.user.subdomain}.zendesk.com/api/v2/tickets/count"
             count_data = requests.get(
@@ -27,7 +28,14 @@ class Tickets:
             print("API unreachable. Max retries exhausted. Try again later.")
             exit()
 
-        self.ticket_count = count_data.json()["count"]["value"]
+        return count_data.json()["count"]["value"]
+    
+    def get_tickets(self):
+        """
+        This function queries the API for all tickets avaialable.
+        It provides a progss bar as it receives tickets.
+        """
+        ticket_list = []
 
         page_count = 1
         curr_count = 0
@@ -43,9 +51,9 @@ class Tickets:
                 exit()
 
             tickets_json = tickets_data.json()
-            self.ticket_list += tickets_json["tickets"]
+            ticket_list += tickets_json["tickets"]
 
-            curr_count = len(self.ticket_list)
+            curr_count = len(ticket_list)
             print(
                 f"Receiving tickets... [Progress {floor(curr_count/self.ticket_count*100)}%]",
                 end="\r",
@@ -56,8 +64,11 @@ class Tickets:
 
             page_count += 1
 
-        print()
-        # print(f'There are {len(self.ticket_list)} tickets.')
+        return ticket_list
+
+    def get(self):
+        self.ticket_count = self.get_ticket_count()
+        self.ticket_list = self.get_tickets()        
 
     def display_all(self):
         """

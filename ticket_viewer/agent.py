@@ -17,9 +17,9 @@ class Agent:
         title()
         signin()
         self.authenticate_user()
-        self.tickets = Tickets(self.user)
         viewer()
-        self.tickets.get_tickets()
+        self.tickets = Tickets(self.user)
+        self.tickets.get()
 
         while True:
             menu()
