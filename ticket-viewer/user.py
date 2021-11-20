@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 import requests
 from cryptography.fernet import Fernet
@@ -11,9 +12,9 @@ class User:
         self.__subdomain = ""
         self.__key = ""
         self.__password = ""
-        self.__key_file = 'key.key'
+        self.__key_file = Path.home() / 'key.key'
         self.__time_of_exp = -1
-        self.__cred_filename = 'CredFile.ini'
+        self.__cred_filename = Path.home() / 'CredFile.ini'
 
     @property
     def username(self):
@@ -97,7 +98,7 @@ class User:
         """
         key = ''
 
-        with open('key.key','r') as key_in:
+        with open(self.__key_file,'r') as key_in:
             key = key_in.read().encode()
 
         fernet_key = Fernet(key)
