@@ -1,5 +1,6 @@
 from structure_functions import *
 from user import *
+from ticket import *
 
 from getpass import getpass
 
@@ -7,6 +8,7 @@ from getpass import getpass
 class Agent:
     def __init__(self) -> None:
         self.user = User()
+        self.tickets = None
 
     def start(self):
         """
@@ -15,7 +17,9 @@ class Agent:
         title()
         signin()
         self.authenticate_user()
+        self.tickets = Tickets(self.user)
         viewer()
+        self.tickets.get_tickets()
     
 
     def authenticate_user(self):

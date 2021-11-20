@@ -77,7 +77,6 @@ class User:
             os.remove(self.__key_file)
   
         #Open the Key.key file and place the key in it.
-        #The key file is hidden.
         try:
   
             os_type = sys.platform
@@ -89,7 +88,7 @@ class User:
   
         except PermissionError:
             os.remove(self.__key_file)
-            print("A Permission error occurred.\n Please re run the script")
+            print("A Permission error occurred.\n")
             sys.exit()
   
   
@@ -126,13 +125,26 @@ class User:
         Raises an Exception in case of failure
         """
         try:
-            user_json = requests.get(f'https://{self.subdomain}.zendesk.com/api/v2/users/me.json', auth=(self.username, self.password)).json()
+            req = f'https://{self.subdomain}.zendesk.com/api/v2/users/me.json'
+            user_data = requests.get(req, auth=(self.username, self.password))
+        
+        except Exception as e:
+            print("API unreachable. Max retries exhausted. Try again later.")
+            exit()
+        
+        try:
+            user_json = user_data.json()
+            
             if user_json['user']['id']==None:
                 raise Exception("Invalid Credentials")
-            print(f"Hello {user_json['user']['name']}!")
+            else:
+                print(f"Hello {user_json['user']['name']}!")
+        
         except Exception as e:
+            
             if(os.path.exists(self.__key_file)):
                 os.remove(self.__key_file)
             if(os.path.exists(self.__cred_filename)):
                 os.remove(self.__cred_filename)
+            
             raise Exception("Authentication Error")
