@@ -141,4 +141,4 @@ class User:
         except Exception as e:
 
             self.delete_cred()
-            raise Exception("Authentication Error")       
+            raise Exception("Authentication Error")

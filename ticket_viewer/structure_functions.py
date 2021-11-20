@@ -34,10 +34,11 @@ def signin():
     print("Sign in to your Zendesk Account")
     print()
 
+
 def continue_with_existing_acc():
     print()
     print("Press N to sign in with a different account | Anything else to continue: ")
-    print()    
+    print()
 
 
 def viewer():
