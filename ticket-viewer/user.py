@@ -77,10 +77,6 @@ class User:
         #Open the Key.key file and place the key in it.
         try:
   
-            os_type = sys.platform
-            if (os_type == 'linux'):
-                self.__key_file = '.' + self.__key_file
-  
             with open(self.__key_file,'w') as key_in:
                 key_in.write(self.__key.decode())
   
