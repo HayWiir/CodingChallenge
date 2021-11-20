@@ -1,5 +1,4 @@
 from ticket_viewer.user import *
-# from pytest_socket import disable_socket
 
 def test_get_cred_fail():
     """
@@ -59,7 +58,8 @@ def test_auth_wrong_cred():
 
 def test_auth_no_api(socket_disabled):
     """
-    Checks authetication when API unavailable
+    Checks authetication when API unavailable.
+    Uses pytest-socket to disable socket requests.
     """
     user = User()
     user.username = "Wrong@example.com"
