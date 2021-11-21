@@ -1,4 +1,5 @@
-# This file contains functions which print menu or related stuff
+# This file contains helper functions
+import requests
 
 
 def title():
@@ -62,3 +63,12 @@ def menu():
   """
     )
     print()
+
+
+def api_call(subdomain, suffix, auth):
+    try:
+        req = f"https://{subdomain}.zendesk.com/api/v2/{suffix}"
+        data = requests.get(req, auth=auth)
+        return data
+    except Exception as e:
+        raise Exception("API unreachable. Max retries exhausted. Try again later.")

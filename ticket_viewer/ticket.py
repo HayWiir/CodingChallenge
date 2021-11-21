@@ -2,8 +2,9 @@ import textwrap
 from datetime import datetime
 from math import floor
 
-import requests
 from tabulate import tabulate
+
+from ticket_viewer.helper import api_call
 
 
 class Tickets:
@@ -18,13 +19,10 @@ class Tickets:
         """
 
         try:
-            req = f"https://{self.user.subdomain}.zendesk.com/api/v2/tickets/count"
-            count_data = requests.get(
-                req, auth=(self.user.username, self.user.password)
-            )
+            auth = (self.user.username, self.user.password)
+            count_data = api_call(self.user.subdomain, f"tickets/count", auth)
         except Exception as e:
-            # print(e)
-            print("API unreachable. Max retries exhausted. Try again later.")
+            print(e)
             exit()
 
         return count_data.json()["count"]["value"]
@@ -39,14 +37,14 @@ class Tickets:
         page_count = 1
         curr_count = 0
         while True:
+
+            auth = (self.user.username, self.user.password)
             try:
-                req = f"https://{self.user.subdomain}.zendesk.com/api/v2/tickets.json?page={page_count}"
-                tickets_data = requests.get(
-                    req, auth=(self.user.username, self.user.password)
+                tickets_data = api_call(
+                    self.user.subdomain, f"tickets.json?page={page_count}", auth
                 )
             except Exception as e:
-                # print(e)
-                print("API unreachable. Max retries exhausted. Try again later.")
+                print(e)
                 exit()
 
             tickets_json = tickets_data.json()

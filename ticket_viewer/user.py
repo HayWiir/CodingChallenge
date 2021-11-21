@@ -1,9 +1,12 @@
 import os
 import sys
+from getpass import getpass
 from pathlib import Path
 
 import requests
 from cryptography.fernet import Fernet
+
+from ticket_viewer.helper import api_call
 
 
 class User:
@@ -13,7 +16,6 @@ class User:
         self.__key = ""
         self.__password = ""
         self.__key_file = Path.home() / "key.key"
-        self.__time_of_exp = -1
         self.__cred_filename = Path.home() / "CredFile.ini"
 
     @property
@@ -33,7 +35,7 @@ class User:
     @subdomain.setter
     def subdomain(self, subdomain):
         while subdomain == "":
-            username = input("Blank subdomain is not accepted:")
+            subdomain = input("Blank subdomain is not accepted:")
         self.__subdomain = subdomain
 
     @property
@@ -47,14 +49,10 @@ class User:
         fernet_key = Fernet(self.__key)
         self.__password = fernet_key.encrypt(password.encode()).decode()
 
-    @property
-    def expiry_time(self):
-        return self.__time_of_exp
-
-    @expiry_time.setter
-    def expiry_time(self, exp_time):
-        if exp_time >= 2:
-            self.__time_of_exp = exp_time
+    def input_cred(self):
+        self.subdomain = input("Enter Zendesk Subdomain: ")
+        self.username = input("Enter Zendesk Username or Email: ")
+        self.password = getpass("Enter Password: ")
 
     def create_cred(self):
         """
@@ -64,11 +62,8 @@ class User:
 
         with open(self.__cred_filename, "w") as file_in:
             file_in.write(
-                "#Credential file:\nUsername={}\nSubdomain={}\nPassword={}\nExpiry={}\n".format(
-                    self.__username,
-                    self.__subdomain,
-                    self.__password,
-                    self.__time_of_exp,
+                "#Credential file:\nUsername={}\nSubdomain={}\nPassword={}\n".format(
+                    self.__username, self.__subdomain, self.__password
                 )
             )
             file_in.write("++" * 20)
@@ -122,12 +117,9 @@ class User:
         This function is responsible authenticating the user credentials.
         Raises an Exception in case of failure
         """
-        try:
-            req = f"https://{self.subdomain}.zendesk.com/api/v2/users/me.json"
-            user_data = requests.get(req, auth=(self.username, self.password))
 
-        except Exception as e:
-            raise Exception("API unreachable. Max retries exhausted. Try again later.")
+        auth = (self.username, self.password)
+        user_data = api_call(self.subdomain, f"users/me.json", auth)
 
         try:
             user_json = user_data.json()
@@ -139,6 +131,29 @@ class User:
                 print(f"Hello {user_json['user']['name']}!")
 
         except Exception as e:
-
             self.delete_cred()
             raise Exception("Authentication Error")
+
+    def authenticate_driver(self):
+        """
+        This function gets user credentials from existing config file
+        or user input.
+        It is called recursively until valid credentials are inputted
+        """
+        try:
+            self.get_cred()
+            print(f"Found credentials for {self.username}!")
+        except Exception as e:
+            self.input_cred()
+            self.create_cred()
+        try:
+            self.authenticate()
+        except Exception as e:
+            if str(e) == "Authentication Error":
+                print(e)
+                self.delete_cred()
+                self.authenticate_driver()
+            else:
+                print(e)
+                self.delete_cred()
+                exit()
