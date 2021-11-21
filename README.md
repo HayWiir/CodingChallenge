@@ -11,7 +11,7 @@ Created as part of the Zendesk Coding Challenge.
 ---
 
 ## Setup
-Install all requirements for `python3`
+Install all requirements for `python3`. Make sure to upgrade `pip` before.
 ```console
 pip install -r requirements.txt
 ```
