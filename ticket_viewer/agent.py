@@ -20,7 +20,7 @@ class Agent:
         user_input = input()
         if user_input.lower() == "n":
             self.user.delete_cred()
-            self.authenticate_user()
+            self.user.authenticate_driver()
         else:
             pass
 
