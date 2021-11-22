@@ -1,6 +1,8 @@
 # This file contains helper functions
 import requests
 
+from ticket_viewer.errors import UnvailableAPIError
+
 
 def title():
     print()
@@ -71,4 +73,4 @@ def api_call(subdomain, suffix, auth):
         data = requests.get(req, auth=auth)
         return data
     except Exception as e:
-        raise Exception("API unreachable. Max retries exhausted. Try again later.")
+        raise UnvailableAPIError("API unreachable. Max retries exhausted. Try again later.")

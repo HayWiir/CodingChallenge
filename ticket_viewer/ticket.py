@@ -3,6 +3,7 @@ from datetime import datetime
 from math import floor
 
 from tabulate import tabulate
+from ticket_viewer.errors import UnvailableAPIError
 
 from ticket_viewer.helper import api_call
 
@@ -21,7 +22,7 @@ class Tickets:
         try:
             auth = (self.user.username, self.user.password)
             count_data = api_call(self.user.subdomain, f"tickets/count", auth)
-        except Exception as e:
+        except UnvailableAPIError as e:
             print(e)
             exit()
 

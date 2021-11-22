@@ -1,5 +1,5 @@
 from ticket_viewer.user import *
-
+from ticket_viewer.errors import *
 
 def test_get_cred_fail():
     """
@@ -54,5 +54,5 @@ def test_auth_wrong_cred():
     try:
         user.authenticate()
         assert False
-    except Exception as e:
-        assert str(e) == "Authentication Error"
+    except AutheticationError:
+        assert True

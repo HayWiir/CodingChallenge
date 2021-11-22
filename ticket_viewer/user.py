@@ -7,7 +7,7 @@ import requests
 from cryptography.fernet import Fernet
 
 from ticket_viewer.helper import api_call
-
+from ticket_viewer.errors import *
 
 class User:
     def __init__(self):
@@ -132,7 +132,7 @@ class User:
 
         except Exception as e:
             self.delete_cred()
-            raise Exception("Authentication Error")
+            raise AutheticationError("Authentication Error")
 
     def authenticate_driver(self):
         """
@@ -146,14 +146,13 @@ class User:
         except Exception as e:
             self.input_cred()
             self.create_cred()
+        
         try:
             self.authenticate()
-        except Exception as e:
-            if str(e) == "Authentication Error":
-                print(e)
-                self.delete_cred()
-                self.authenticate_driver()
-            else:
-                print(e)
-                self.delete_cred()
-                exit()
+        except AutheticationError as e:
+            print(e)
+            self.delete_cred()
+            self.authenticate_driver()
+        except UnvailableAPIError as e:
+            print(e) 
+            exit()
