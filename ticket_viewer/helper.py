@@ -73,4 +73,6 @@ def api_call(subdomain, suffix, auth):
         data = requests.get(req, auth=auth)
         return data
     except Exception as e:
-        raise UnvailableAPIError("API unreachable. Max retries exhausted. Try again later.")
+        raise UnvailableAPIError(
+            "API unreachable. Max retries exhausted. Try again later."
+        )

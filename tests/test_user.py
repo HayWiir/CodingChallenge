@@ -1,6 +1,7 @@
 from ticket_viewer.user import *
 from ticket_viewer.errors import *
 
+
 def test_get_cred_fail():
     """
     get_cred() should fail when it cannot find

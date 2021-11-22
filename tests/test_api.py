@@ -2,6 +2,7 @@ from ticket_viewer.helper import *
 from ticket_viewer.user import *
 from ticket_viewer.errors import *
 
+
 def test_auth_no_api(socket_disabled, capfd):
     """
     Checks authetication when API unavailable.

@@ -9,6 +9,7 @@ from cryptography.fernet import Fernet
 from ticket_viewer.helper import api_call
 from ticket_viewer.errors import *
 
+
 class User:
     def __init__(self):
         self.__username = ""
@@ -146,7 +147,7 @@ class User:
         except Exception as e:
             self.input_cred()
             self.create_cred()
-        
+
         try:
             self.authenticate()
         except AutheticationError as e:
@@ -154,5 +155,5 @@ class User:
             self.delete_cred()
             self.authenticate_driver()
         except UnvailableAPIError as e:
-            print(e) 
+            print(e)
             exit()
