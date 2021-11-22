@@ -19,6 +19,7 @@ def test_auth_no_api(socket_disabled, capfd):
     except UnvailableAPIError:
         assert True
 
+
 def test_title():
     try:
         title()
@@ -26,12 +27,14 @@ def test_title():
     except Exception as e:
         assert False
 
+
 def test_signin():
     try:
         signin()
         assert True
     except Exception as e:
-        assert False   
+        assert False
+
 
 def test_continue_with_existing_acc():
     try:
@@ -40,6 +43,7 @@ def test_continue_with_existing_acc():
     except Exception as e:
         assert False
 
+
 def test_viewer():
     try:
         viewer()
@@ -47,10 +51,10 @@ def test_viewer():
     except Exception as e:
         assert False
 
+
 def test_menu():
     try:
         menu()
         assert True
     except Exception as e:
         assert False
-            

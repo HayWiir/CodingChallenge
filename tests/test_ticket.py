@@ -1,8 +1,10 @@
+import json
+import pathlib
+
+from tabulate import tabulate
 from ticket_viewer import ticket
 from ticket_viewer.ticket import *
 from ticket_viewer.user import *
-import json
-from tabulate import tabulate
 
 
 def dummy_ticket_user(requests_mock):
@@ -12,7 +14,15 @@ def dummy_ticket_user(requests_mock):
     user.subdomain = "baddomain"
 
     req = f"https://{user.subdomain}.zendesk.com/api/v2/tickets.json?page=1"
-    requests_mock.get(req, json=json.load(open("tests/dummy_tickets.json")))
+    requests_mock.get(
+        req,
+        json=json.load(
+            open(
+                pathlib.Path(__file__).resolve(strict=True).parent
+                / "dummy_tickets.json"
+            )
+        ),
+    )
 
     ticket = Tickets(user)
     ticket.ticket_count = 100
@@ -32,7 +42,14 @@ def test_ticket_count(requests_mock):
     # requests_mock.get(req1, json=json.load(open('tests/dummy_tickets.json')))
 
     req2 = f"https://{user.subdomain}.zendesk.com/api/v2/tickets/count"
-    requests_mock.get(req2, json=json.load(open("tests/dummy_count.json")))
+    requests_mock.get(
+        req2,
+        json=json.load(
+            open(
+                pathlib.Path(__file__).resolve(strict=True).parent / "dummy_count.json"
+            )
+        ),
+    )
 
     ticket = Tickets(user)
 
@@ -129,13 +146,14 @@ def test_display_ticket_correct(requests_mock):
     except Exception as e:
         assert False
 
+
 def test_display_all(requests_mock, monkeypatch):
     user, ticket = dummy_ticket_user(requests_mock)
 
-    monkeypatch.setattr('builtins.input', lambda _: "e")
+    monkeypatch.setattr("builtins.input", lambda _: "e")
 
     try:
         ticket.display_all()
         assert True
     except Exception as e:
-        assert False                
+        assert False
