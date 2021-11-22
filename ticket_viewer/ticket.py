@@ -64,6 +64,10 @@ class Tickets:
 
         return ticket_list
 
+    def get(self):
+        self.ticket_count = self.get_ticket_count()
+        self.ticket_list = self.get_tickets()
+
     def display_all(self):
         """
         Displays tickets in a list. In case of more than 25 tickets,
