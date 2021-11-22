@@ -8,12 +8,11 @@ class Agent:
         self.user = User()
         self.tickets = None
 
-    def start(self):
-        """
-        Driver function
-        """
+    def welcome(self):
         title()
         signin()
+
+    def user_sigin(self):
         self.user.authenticate_driver()
 
         continue_with_existing_acc()
@@ -24,6 +23,8 @@ class Agent:
         else:
             pass
 
+    def user_tickets(self):
+
         viewer()
         self.tickets = Tickets(self.user)
         self.tickets.get()
@@ -31,6 +32,8 @@ class Agent:
         print()
         print()
         print(f"There are {self.tickets.ticket_count} tickets")
+
+    def viewer_menu(self):
 
         while True:
             menu()
@@ -50,3 +53,12 @@ class Agent:
                 pass
             else:
                 break
+
+    def start(self):
+        """
+        Driver function
+        """
+        self.welcome()
+        self.user_sigin()
+        self.user_tickets()
+        self.viewer_menu()
