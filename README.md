@@ -26,8 +26,8 @@ This will be decrypted in future runs for ease of access.
 ![Alt Text](media/demo.gif)
 
 ## Testing
-The `pytest` library is used for unit testing. Tests are under the `tests/` directory.
+The `pytest` library is used for unit testing. Tests are under the `tests/` directory. For testing and coverage,
 ```console
-python3 -m pytest
+python3 -m coverage  run --source .  -m  pytest && python3 -m coverage report
 ```
 The code has been tested on macOS 11.5.2 and CentOS 7.9. It has not been tested on Windows. However, the code does not contain OS specific libraries.

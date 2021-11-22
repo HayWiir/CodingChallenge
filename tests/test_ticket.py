@@ -118,3 +118,24 @@ def test_display_ticket_wrong(requests_mock):
         assert False
     except Exception as e:
         assert True
+
+
+def test_display_ticket_correct(requests_mock):
+    user, ticket = dummy_ticket_user(requests_mock)
+
+    try:
+        ticket.display_ticket(12)
+        assert True
+    except Exception as e:
+        assert False
+
+def test_display_all(requests_mock, monkeypatch):
+    user, ticket = dummy_ticket_user(requests_mock)
+
+    monkeypatch.setattr('builtins.input', lambda _: "e")
+
+    try:
+        ticket.display_all()
+        assert True
+    except Exception as e:
+        assert False                

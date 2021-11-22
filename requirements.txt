@@ -2,5 +2,6 @@ cryptography
 requests
 tabulate
 pytest
+coverage
 pytest-socket
 requests-mock
