@@ -75,7 +75,7 @@ class User:
         )
         self.token = (
             os.environ["ZENDESK_TOKEN"]
-            if ("ZENDESK_USER" in os.environ)
+            if ("ZENDESK_TOKEN" in os.environ)
             else getpass("Enter Token: ")
         )
 
