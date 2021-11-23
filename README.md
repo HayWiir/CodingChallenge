@@ -9,6 +9,11 @@ Created as part of the Zendesk Coding Challenge.
 - Display individual ticket details
 
 ---
+## Design
+The tool takes login credentials via environment variables or user input.
+The environment variables are `ZENDESK_SUBDOMAIN`, `ZENDESK_USER`, `ZENDESK_PSSWD`.
+
+NOTE: If env vars are set, they will always be picked up without user input.
 
 ## Setup
 Install all requirements for `python3`. Make sure to upgrade `pip` before.

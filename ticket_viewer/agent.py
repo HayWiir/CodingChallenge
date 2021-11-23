@@ -52,6 +52,7 @@ class Agent:
             elif user_input == "":
                 pass
             else:
+                self.user.env_delete()
                 break
 
     def start(self):
