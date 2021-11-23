@@ -24,7 +24,7 @@ Created as part of the Zendesk Coding Challenge.
 
 The tool takes login credentials via environment variables or user input.
 
-The environment variables are `ZENDESK_SUBDOMAIN`, `ZENDESK_USER`, `ZENDESK_PSSWD`.
+The environment variables are `ZENDESK_SUBDOMAIN`, `ZENDESK_USER`, `ZENDESK_TOKEN`.
 
   
 
@@ -32,7 +32,7 @@ NOTE: If env vars are set, they will always be picked up without user input.
 
   
 
-The credentials are then stored in a config file with the password encrypted. They are authenticated by calling the API.
+The credentials are then stored in a config file with the token encrypted. They are authenticated by calling the API.
 
 In case of failure, the config file is deleted and program quits.
 

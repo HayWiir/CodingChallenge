@@ -9,12 +9,12 @@ def test_auth_no_api(socket_disabled, capfd):
     Uses pytest-socket to disable socket requests.
     """
     user = "Wrong@example.com"
-    psswd = "Incorrect"
+    token = "Incorrect"
     subdomain = "baddomain"
     suffix = "tickets"
 
     try:
-        api_call(subdomain, suffix, (user, psswd))
+        api_call(subdomain, suffix, (user, token))
         assert False
     except UnvailableAPIError:
         assert True

@@ -69,8 +69,9 @@ def menu():
 
 def api_call(subdomain, suffix, auth):
     try:
+        auth_param = (f"{auth[0]}/token", auth[-1])
         req = f"https://{subdomain}.zendesk.com/api/v2/{suffix}"
-        data = requests.get(req, auth=auth)
+        data = requests.get(req, auth=auth_param)
         return data
     except Exception as e:
         raise UnvailableAPIError(

@@ -15,7 +15,7 @@ class User:
         self.__username = ""
         self.__subdomain = ""
         self.__key = ""
-        self.__password = ""
+        self.__token = ""
         self.__key_file = Path.home() / "key.key"
         self.__cred_filename = Path.home() / "CredFile.ini"
 
@@ -40,21 +40,21 @@ class User:
         self.__subdomain = subdomain
 
     @property
-    def password(self):
+    def token(self):
         fernet_key = Fernet(self.__key)
-        return fernet_key.decrypt(self.__password.encode()).decode()
+        return fernet_key.decrypt(self.__token.encode()).decode()
 
-    @password.setter
-    def password(self, password):
+    @token.setter
+    def token(self, token):
         self.__key = Fernet.generate_key()
         fernet_key = Fernet(self.__key)
-        self.__password = fernet_key.encrypt(password.encode()).decode()
+        self.__token = fernet_key.encrypt(token.encode()).decode()
 
     def env_delete(self):
         """
         Deletes credential config file in case env vars are used.
         """
-        env_vars = ["ZENDESK_SUBDOMAIN", "ZENDESK_USER", "ZENDESK_PSSWD"]
+        env_vars = ["ZENDESK_SUBDOMAIN", "ZENDESK_USER", "ZENDESK_TOKEN"]
         for var in env_vars:
             if var in os.environ:
                 self.delete_cred()
@@ -73,22 +73,22 @@ class User:
             if ("ZENDESK_USER" in os.environ)
             else input("Enter Zendesk Username or Email: ")
         )
-        self.password = (
-            os.environ["ZENDESK_PSSWD"]
+        self.token = (
+            os.environ["ZENDESK_TOKEN"]
             if ("ZENDESK_USER" in os.environ)
-            else getpass("Enter Password: ")
+            else getpass("Enter Token: ")
         )
 
     def create_cred(self):
         """
-        This function is responsible for encrypting the password and create  key file for
-        storing the key and create a credential file with user name and password
+        This function is responsible for encrypting the token and create  key file for
+        storing the key and create a credential file with user name and token
         """
 
         with open(self.__cred_filename, "w") as file_in:
             file_in.write(
-                "#Credential file:\nUsername={}\nSubdomain={}\nPassword={}\n".format(
-                    self.__username, self.__subdomain, self.__password
+                "#Credential file:\nUsername={}\nSubdomain={}\nToken={}\n".format(
+                    self.__username, self.__subdomain, self.__token
                 )
             )
             file_in.write("++" * 20)
@@ -124,12 +124,12 @@ class User:
             config = {}
             for line in lines:
                 tuples = line.rstrip("\n").split("=", 1)
-                if tuples[0] in ("Username", "Password", "Subdomain"):
+                if tuples[0] in ("Username", "Token", "Subdomain"):
                     config[tuples[0]] = tuples[1]
 
         self.username = config["Username"]
         self.subdomain = config["Subdomain"]
-        self.password = fernet_key.decrypt(config["Password"].encode()).decode()
+        self.token = fernet_key.decrypt(config["Token"].encode()).decode()
 
     def delete_cred(self):
         if os.path.exists(self.__key_file):
@@ -143,7 +143,7 @@ class User:
         Raises an Exception in case of failure
         """
 
-        auth = (self.username, self.password)
+        auth = (self.username, self.token)
         user_data = api_call(self.subdomain, f"users/me.json", auth)
 
         try:

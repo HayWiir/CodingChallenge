@@ -20,7 +20,7 @@ class Tickets:
         """
 
         try:
-            auth = (self.user.username, self.user.password)
+            auth = (self.user.username, self.user.token)
             count_data = api_call(self.user.subdomain, f"tickets/count", auth)
         except UnvailableAPIError as e:
             print(e)
@@ -39,7 +39,7 @@ class Tickets:
         curr_count = 0
         while True:
 
-            auth = (self.user.username, self.user.password)
+            auth = (self.user.username, self.user.token)
             try:
                 tickets_data = api_call(
                     self.user.subdomain, f"tickets.json?page={page_count}", auth

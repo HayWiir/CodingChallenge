@@ -10,7 +10,7 @@ from ticket_viewer.user import *
 def dummy_ticket_user(requests_mock):
     user = User()
     user.username = "Wrong@example.com"
-    user.password = "Incorrect"
+    user.token = "Incorrect"
     user.subdomain = "baddomain"
 
     req = f"https://{user.subdomain}.zendesk.com/api/v2/tickets.json?page=1"
@@ -34,7 +34,7 @@ def dummy_ticket_user(requests_mock):
 def test_ticket_count(requests_mock):
     user = User()
     user.username = "Wrong@example.com"
-    user.password = "Incorrect"
+    user.token = "Incorrect"
     user.subdomain = "baddomain"
     # user.create_cred()
 

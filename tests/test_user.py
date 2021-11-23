@@ -11,7 +11,7 @@ def test_get_cred_fail():
     user = User()
 
     user.username = "Wrong@example.com"
-    user.password = "Incorrect"
+    user.token = "Incorrect"
     user.subdomain = "baddomain"
 
     try:
@@ -30,7 +30,7 @@ def test_get_cred_pass():
     user = User()
 
     user.username = "Wrong@example.com"
-    user.password = "Incorrect"
+    user.token = "Incorrect"
     user.subdomain = "baddomain"
 
     user.create_cred()
@@ -48,7 +48,7 @@ def test_auth_wrong_cred():
     """
     user = User()
     user.username = "Wrong@example.com"
-    user.password = "Incorrect"
+    user.token = "Incorrect"
     user.subdomain = "baddomain"
 
     user.create_cred()
