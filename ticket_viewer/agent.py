@@ -43,11 +43,15 @@ class Agent:
                 self.tickets.display_all()
 
             elif user_input == "2":
-                number = int(input("Enter ticket number: "))
                 try:
-                    self.tickets.display_ticket(number)
-                except Exception as e:
-                    print(e)
+                    number = int(input("Enter ticket number: "))
+                    try:
+                        self.tickets.display_ticket(number)
+                    except Exception as e:
+                        print(e)
+                except ValueError:
+                    print()
+                    print("Invalid input!")    
 
             elif user_input == "":
                 pass
