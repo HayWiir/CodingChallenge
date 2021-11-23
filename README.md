@@ -38,7 +38,7 @@ In case of failure, the config file is deleted and program quits.
 
   
 
-For valid credentials, the all the tickets for the user are pulled from the API (as per the requirements) using offset pagination. The user is provided with an input menu for the specified features.
+For valid credentials, all the tickets for the user are pulled from the API (as per the requirements) using offset pagination. The user is provided with an input menu for the specified features.
 
   
 
