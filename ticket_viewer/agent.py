@@ -51,7 +51,7 @@ class Agent:
                         print(e)
                 except ValueError:
                     print()
-                    print("Invalid input!")    
+                    print("Invalid input!")
 
             elif user_input == "":
                 pass

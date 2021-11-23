@@ -54,7 +54,7 @@ class User:
         """
         Deletes credential config file in case env vars are used.
         """
-        env_vars = ['ZENDESK_SUBDOMAIN', 'ZENDESK_USER', 'ZENDESK_PSSWD']
+        env_vars = ["ZENDESK_SUBDOMAIN", "ZENDESK_USER", "ZENDESK_PSSWD"]
         for var in env_vars:
             if var in os.environ:
                 self.delete_cred()
@@ -63,9 +63,21 @@ class User:
         """
         Checks for credentials in environment variables else asks for user input.
         """
-        self.subdomain = os.environ['ZENDESK_SUBDOMAIN'] if ('ZENDESK_SUBDOMAIN' in os.environ ) else input("Enter Zendesk Subdomain: ")
-        self.username = os.environ['ZENDESK_USER'] if ('ZENDESK_USER' in os.environ ) else input("Enter Zendesk Username or Email: ")
-        self.password = os.environ['ZENDESK_PSSWD'] if ('ZENDESK_USER' in os.environ ) else getpass("Enter Password: ")
+        self.subdomain = (
+            os.environ["ZENDESK_SUBDOMAIN"]
+            if ("ZENDESK_SUBDOMAIN" in os.environ)
+            else input("Enter Zendesk Subdomain: ")
+        )
+        self.username = (
+            os.environ["ZENDESK_USER"]
+            if ("ZENDESK_USER" in os.environ)
+            else input("Enter Zendesk Username or Email: ")
+        )
+        self.password = (
+            os.environ["ZENDESK_PSSWD"]
+            if ("ZENDESK_USER" in os.environ)
+            else getpass("Enter Password: ")
+        )
 
     def create_cred(self):
         """
