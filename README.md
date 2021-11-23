@@ -18,7 +18,7 @@ NOTE: If env vars are set, they will always be picked up without user input.
 ## Setup
 Install all requirements for `python3`. Make sure to upgrade `pip` before.
 ```console
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
