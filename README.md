@@ -15,6 +15,11 @@ The environment variables are `ZENDESK_SUBDOMAIN`, `ZENDESK_USER`, `ZENDESK_PSSW
 
 NOTE: If env vars are set, they will always be picked up without user input.
 
+The credentials are then stored in a config file with the password encrypted. They are authenticated by calling the API.
+In case of failure, the config file is deleted and program quits.
+
+For valid credentials, the tickets for the user are pulled from the API. The user is provided with an input menu for the specified features. 
+
 ## Setup
 Install all requirements for `python3`. Make sure to upgrade `pip` before.
 ```console
