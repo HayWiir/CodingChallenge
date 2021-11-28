@@ -48,11 +48,31 @@ Zendesk API can be found [here](https://developer.zendesk.com/api-reference).
 
 ## Setup
 
+Clone repository
+```console
+git clone https://github.com/HayWiir/CodingChallenge && cd CodingChallenge
+```
+(Optional) Create virtual environment
+```console
+python3 -m venv test && source test/bin/activate
+```
+
+Create `.env` file for credentials.
+```console
+nano .env
+```
+We use [python-dotenv](https://pypi.org/project/python-dotenv/) for setting environment variables. The contents of `.env` should look like this and be in the root directory.
+```console
+ZENDESK_SUBDOMAIN=exampleDomain
+ZENDESK_USER=user@example.com
+ZENDESK_TOKEN=exampleexampleexampleexampleexample
+```
+
 Install all requirements for `python3`. Make sure to upgrade `pip` before.
 
 ```console
 
-python3 -m pip install -r requirements.txt
+python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
 
 ```
 
@@ -66,7 +86,7 @@ python3 main.py
 
 ```
 
-You will be asked for login credentials on first run. These are stored locally in an encrypted Config.ini file.
+The login credentials are picked from the `.env` file. These are stored locally in an encrypted Config.ini file.
 
 This will be decrypted in future runs for ease of access.
 
