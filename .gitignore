@@ -6,6 +6,7 @@ __pycache__/
 #Credential files
 *.key
 *.ini
+*.env
 
 .DS_store
 

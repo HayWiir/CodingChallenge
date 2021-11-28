@@ -5,3 +5,4 @@ pytest
 coverage
 pytest-socket
 requests-mock
+python-dotenv
