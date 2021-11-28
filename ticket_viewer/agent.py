@@ -15,14 +15,6 @@ class Agent:
     def user_sigin(self):
         self.user.authenticate_driver()
 
-        continue_with_existing_acc()
-        user_input = input()
-        if user_input.lower() == "n":
-            self.user.delete_cred()
-            self.user.authenticate_driver()
-        else:
-            pass
-
     def user_tickets(self):
 
         viewer()
